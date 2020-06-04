@@ -24,7 +24,7 @@ func mslsearch(comb []int) (int, int){
 	result_value := first_value
 	for i := 0; i < len(comb) - 1; i++ {
 		swap_comb := swap(comb, i)
-		new_value := job_time[0][swap_comb[0] - 1] + job_time[1][swap_comb[1] - 1] + job_time[2][swap_comb[2] - 1] + job_time[3][swap_comb[3] - 1]
+		new_value := job_time[0][swap_comb[0]-1] + job_time[1][swap_comb[1]-1] + job_time[2][swap_comb[2]-1] + job_time[3][swap_comb[3]-1]
 		if result_value > new_value {
 			result_value = new_value
 		}
