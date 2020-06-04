@@ -7,7 +7,7 @@ import (
 
 /*
 *	扇動の定義：隣り合う要素の入れ替え
-*	終了条件：隣り合う同士がすべて入れ替わったら
+*	終了条件：暫定解の更新回数はN-1回(N:要素数)とする
 */
 
 var job_time = [4][4]int{{6, 1, 9, 3}, {2, 5, 7, 8}, {6, 3, 5, 4}, {3, 5, 2, 1}}
@@ -22,8 +22,7 @@ func shuffle(data []int) []int{
 }
 
 func swap(c []int, i int) []int{
-	swap_c := make([]int, len(c))
-	_ = copy(swap_c, c)
+	swap_c := c
 	swap_c[i], swap_c[i+1] =  swap_c[i+1], swap_c[i]
 	return swap_c
 }
