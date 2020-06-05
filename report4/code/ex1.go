@@ -64,6 +64,6 @@ func main(){
 		}
 	}
 
-	fmt.Println("最良の組み合わせ", best_comb)
-	fmt.Println("最良解", optimal_value)
+	fmt.Println("準暫定解", best_comb)
+	fmt.Println("目的関数値", optimal_value)
 }
