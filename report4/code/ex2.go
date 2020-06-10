@@ -10,16 +10,17 @@ import (
 *	終了条件：暫定解の更新回数はN-1回(N:要素数)とする
 */
 
-var job_time = [4][4]int{{6, 1, 9, 3}, {2, 5, 7, 8}, {6, 3, 5, 4}, {3, 5, 2, 1}}
+var job_time = [4][4]int{{6, 1, 9, 3}, {2, 5, 7, 8}, {6, 3, 5, 4}, {3, 5, 2, 1}} 
 var first_comb = []int{} //初期解の目的関数値
 var optimal_comb = []int{} //最終解の目的関数値
 var p int = 5 //初期解を生成する数
-var memory_min_first = make([]int, len(job_time[0]))
-var memory_max_first = make([]int, len(job_time[0]))
-var min_first int = 1000
+var memory_min_first = make([]int, len(job_time[0])) //初期解の中の最良解
+var memory_max_first = make([]int, len(job_time[0])) //初期解の中の最悪解
+// 最小・最大判定
+var min_first int = 1000 
 var max_first int = 0
 
-
+//ソートする関数
 func sort(s []int) []int {
 	for i := 0; i < len(s) - 1; i++ {
 		for j := 0; j < len(s) - i - 1; j++ {
@@ -31,6 +32,7 @@ func sort(s []int) []int {
 	return s
 }
 
+//解をシャッフル関数
 func shuffle(data []int) []int{
     for l := len(data) - 1; l >= 0; l-- {
         j := rand.Intn(l + 1)
@@ -39,12 +41,14 @@ func shuffle(data []int) []int{
 	return data
 }
 
+//扇動関数
 func swap(c []int, i int) []int{
 	swap_c := c
 	swap_c[i], swap_c[i+1] =  swap_c[i+1], swap_c[i]
 	return swap_c
 }
 
+//初期解の中の最良と最悪の解を判定する解
 func memory_slice(f int, c []int){
 	if min_first > f {
 		min_first = f
@@ -55,6 +59,7 @@ func memory_slice(f int, c []int){
 	}
 }
 
+//多スタート局所探索法の関数
 func mslsearch(comb []int) (int, []int){
 	first_value := job_time[0][comb[0]-1] + job_time[1][comb[1]-1] + job_time[2][comb[2]-1] + job_time[3][comb[3]-1]
 
