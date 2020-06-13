@@ -19,6 +19,7 @@ var memory_max_first = make([]int, len(job_time[0])) //初期解の中の最悪�
 // 最小・最大判定
 var min_first int = 1000 
 var max_first int = 0
+var first_flag bool = true
 
 //ソートする関数
 func sort(s []int) []int {
@@ -50,12 +51,18 @@ func swap(c []int, i int) []int{
 
 //初期解の中の最良と最悪の解を判定する解
 func memory_slice(f int, c []int){
-	if min_first > f {
-		min_first = f
-		_ = copy(memory_min_first, c)
-	}else if max_first < f{
-		max_first = f
-		_ = copy(memory_max_first, c)
+	fmt.Println(f)
+	if first_flag {
+		min_first, max_first = f, f
+		first_flag = false
+	}else if !first_flag{
+		if min_first > f {
+			min_first = f
+			_ = copy(memory_min_first, c)
+		}else if max_first < f{
+			max_first = f
+			_ = copy(memory_max_first, c)
+		}
 	}
 }
 
@@ -69,7 +76,6 @@ func mslsearch(comb []int) (int, []int){
 	_ = copy(best_c, comb)
 
 	new_value := 0
-	first_comb = append(first_comb, first_value)
 
 	result_value := first_value
 	for i := 0; i < len(comb) - 1; i++ {
@@ -103,12 +109,11 @@ func main(){
 				_ = copy(bad_comb, best_c)
 			}
 		}
-		first_comb = sort(first_comb)
 		optimal_comb = sort(optimal_comb)
 	}
 	fmt.Println("--------------------------------------------------")
-	fmt.Println("初期解の中での最良な解", memory_min_first, "|", "目的関数値", first_comb[0])
-	fmt.Println("初期解の中での最悪な解", memory_max_first, "|", "目的関数値", first_comb[len(first_comb)-1])
+	fmt.Println("初期解の中での最良な解", memory_min_first, "|", "目的関数値", min_first)
+	fmt.Println("初期解の中での最悪な解", memory_max_first, "|", "目的関数値", max_first)
 	fmt.Println("--------------------------------------------------")
 	fmt.Println("最終解の中での最良な解", best_comb, "|", "目的関数値", optimal_comb[0])
 	fmt.Println("最終解の中での最悪な解", bad_comb, "|", "目的関数値", optimal_comb[len(optimal_comb)-1])
