@@ -101,7 +101,7 @@ func main(){
 	p := 5 //初期解を生成する数
 	result_maxsize := 0
 	result_maxprice := 0
-	result_minprice := 0
+	result_minprice := 100
 	result_minsize := 0
 	result_maxcomb := make([]int, len(size))
 	result_mincomb := make([]int, len(size))
@@ -112,7 +112,7 @@ func main(){
 		result_s, result_p, comb := mslsearch(comb[i], limit)
 		size_v = append(size_v, result_s)
 		price_v = append(price_v, result_p)
-		if i != 0{
+		if i != 0 && result_p != 0{
 			if result_maxprice < price_v[i]{
 				result_maxsize = result_s
 				result_maxprice = result_p
@@ -122,7 +122,7 @@ func main(){
 				result_minprice = result_p
 				_ = copy(result_mincomb, comb)
 			}
-		}else {
+		}else if result_p != 0{
 			result_maxsize = result_s
 			result_minprice = result_p
 			result_maxprice = result_p
@@ -130,6 +130,7 @@ func main(){
 			_ = copy(result_maxcomb, comb)
 		}
 	}
+	fmt.Println(price_v)
 
 	fmt.Println("--------------------------------------------------")
 	fmt.Println("初期解の中での最良な解", memory_max_first, "|", "価値", max_first_p, "|", "容量", max_first_s)
