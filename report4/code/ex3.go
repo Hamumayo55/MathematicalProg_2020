@@ -17,16 +17,6 @@ var memory_min_first = make([]int, len(size)) //初期解の中の最良解
 var memory_max_first = make([]int, len(size)) //初期解の中の最悪解
 var first_flag bool = true
 
-func sort(s []int) []int {
-	for i := 0; i < len(s) - 1; i++ {
-		for j := 0; j < len(s) - i - 1; j++ {
-			if s[j] > s[j+1] {
-				s[j], s[j+1] = s[j+1], s[j]
-			}
-		}
-	}
-	return s
-}
 
 func create_binary(p int) [][]int{ //ランダムに初期解を作る関数
 	rand.Seed(time.Now().Unix())
