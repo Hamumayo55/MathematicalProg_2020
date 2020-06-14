@@ -44,6 +44,8 @@ func memory_slice(f_p int, f_s int,c []int){
 	if first_flag {
 		min_first_p, max_first_p = f_p, f_p
 		min_first_s, max_first_s = f_s, f_s
+		_ = copy(memory_max_first, c)
+		_ = copy(memory_min_first, c)
 		first_flag = false
 	}else if !first_flag{
 		if min_first_p > f_p {
@@ -98,7 +100,7 @@ func mslsearch(c []int, limit int) (int, int, []int){
 
 func main(){
 	limit := 25
-	p := 5 //初期解を生成する数
+	p := 20 //初期解を生成する数
 	result_maxsize := 0
 	result_maxprice := 0
 	result_minprice := 100
@@ -128,9 +130,9 @@ func main(){
 			result_maxprice = result_p
 			result_minprice = result_p
 			_ = copy(result_maxcomb, comb)
+			_ = copy(result_mincomb, comb)
 		}
 	}
-	fmt.Println(price_v)
 
 	fmt.Println("--------------------------------------------------")
 	fmt.Println("初期解の中での最良な解", memory_max_first, "|", "価値", max_first_p, "|", "容量", max_first_s)
