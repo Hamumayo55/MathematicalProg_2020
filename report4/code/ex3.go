@@ -100,7 +100,7 @@ func mslsearch(c []int, limit int) (int, int, []int){
 
 func main(){
 	limit := 25
-	p := 20 //初期解を生成する数
+	p := 5 //初期解を生成する数
 	result_maxsize := 0
 	result_maxprice := 0
 	result_minprice := 100
@@ -126,7 +126,7 @@ func main(){
 			}
 		}else if result_p != 0{
 			result_maxsize = result_s
-			result_minprice = result_p
+			result_minsize = result_s
 			result_maxprice = result_p
 			result_minprice = result_p
 			_ = copy(result_maxcomb, comb)
