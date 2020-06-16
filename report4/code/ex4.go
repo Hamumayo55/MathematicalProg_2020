@@ -35,7 +35,7 @@ func sort(s []int, p []int)([]int, []int){
 func shuffle(data []int) []int{
 	rand.Seed(time.Now().Unix())
     n := len(data)
-    for i := n - 1; i >= 0; i-- {
+    for i := n-1; i >= 0; i-- {
         j := rand.Intn(i+1)
         data[i], data[j] = data[j], data[i]
 	}

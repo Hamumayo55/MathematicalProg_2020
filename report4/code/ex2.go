@@ -51,7 +51,6 @@ func swap(c []int, i int) []int{
 
 //初期解の中の最良と最悪の解を判定する解
 func memory_slice(f int, c []int){
-	fmt.Println(f)
 	if first_flag {
 		min_first, max_first = f, f
 		first_flag = false
