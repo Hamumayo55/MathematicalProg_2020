@@ -6,8 +6,8 @@ import (
 	"time"
 )
 
-var size = []int{3,6,5,4,8,5,3,4}
-var price = []int{7,12,9,7,13,8,4,5}
+var size = []int{3,6,5,4,8,5,3,4,3,5,6,4,8,7,11,8,14,6,12,4}
+var price = []int{7,12,9,7,13,8,4,5,3,10,7,5,6,14,5,9,6,12,5,9}
 // 最小・最大判定
 var min_first_p int = 1000 
 var max_first_p int = 0
@@ -16,30 +16,48 @@ var max_first_s int = 0
 var memory_min_first = make([]int, len(size)) //初期解の中の最良解
 var memory_max_first = make([]int, len(size)) //初期解の中の最悪解
 var first_flag bool = true
+var g_max_size int = 0
+var g_max_price int = 0
+var limit int =  55
 
-
-func create_binary(p int) [][]int{ //ランダムに初期解を作る関数
-	rand.Seed(time.Now().Unix())
-	binary := [][]int{}
-	slice := []int{}
-	cnt := 0
-	for cnt < p{
-		judge_price := 0
-		judge_size := 0
-		for i := 0; i < len(size); i++{
-			slice = append(slice, rand.Intn(2))
-			judge_price += price[i]*slice[i]
-			judge_size += size[i]*slice[i]
+func sort(s []int, p []int)([]int, []int){
+	for i := 0; i < len(s) - 1; i++ {
+		for j := 0; j < len(s) - i - 1; j++ {
+			if float64(p[j])/float64(s[j]) < float64(p[j + 1])/float64(s[j + 1]) {
+				s[j], s[j + 1] = s[j + 1], s[j]
+				p[j], p[j + 1] = p[j + 1], p[j]
+			}
 		}
-		if judge_price > 30 {
-			binary = append(binary, slice)
-			cnt++
-		}
-		slice = nil
 	}
-
-	return binary
+	return s, p
 }
+
+func shuffle(data []int) []int{
+	rand.Seed(time.Now().Unix())
+    n := len(data)
+    for i := n - 1; i >= 0; i-- {
+        j := rand.Intn(i+1)
+        data[i], data[j] = data[j], data[i]
+	}
+	return data
+}
+
+func greedy(s []int, p []int)[]int{
+	g_comb := []int{}
+	for n := 0; n < len(s) - 1; n++{
+		g_max_size += s[n]
+		g_max_price += p[n]
+		if g_max_size > limit{
+			g_max_size -= s[n]
+			g_max_price -= p[n]
+			g_comb = append(g_comb, 0)
+		}else{
+			g_comb = append(g_comb, 1)
+		}
+	}
+	return g_comb
+}
+
 
 //扇動関数
 func swap(c []int, i int) []int{
@@ -86,6 +104,7 @@ func mslsearch(c []int, limit int) (int, int, []int){
 		memory_size = append(memory_size, size_value)
 		memory_price = append(memory_price, price_value)
 
+
 		if size_value <= limit{
 			if n == 0{
 				max_size = size_value
@@ -108,19 +127,23 @@ func mslsearch(c []int, limit int) (int, int, []int){
 }
 
 func main(){
-	limit := 25
-	p := 20 //初期解を生成する数
+	p := 5 //初期解を生成する数
 	result_maxsize := 0
 	result_maxprice := 0
 	result_minprice := 100
 	result_minsize := 0
 	result_maxcomb := make([]int, len(size))
 	result_mincomb := make([]int, len(size))
+	f_comb := [][]int{}
 
-	comb := create_binary(p)
+	size, price := sort(size, price)
+
+	g_comb := greedy(size, price)
+	f_comb = append(f_comb, g_comb)
+
 	size_v, price_v := []int{}, []int{}
 	for i := 0; i < p; i++{
-		result_s, result_p, comb := mslsearch(comb[i], limit)
+		result_s, result_p, comb := mslsearch(f_comb[0], limit)
 		size_v = append(size_v, result_s)
 		price_v = append(price_v, result_p)
 		if i != 0 && result_p != 0{
@@ -141,6 +164,8 @@ func main(){
 			_ = copy(result_maxcomb, comb)
 			_ = copy(result_mincomb, comb)
 		}
+		g_comb = shuffle(g_comb)
+		f_comb = append(f_comb, g_comb)
 	}
 
 	fmt.Println("--------------------------------------------------")
