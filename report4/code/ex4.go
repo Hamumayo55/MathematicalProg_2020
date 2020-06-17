@@ -6,20 +6,27 @@ import (
 	"time"
 )
 
+/*
+*	Definition of perturbation : replacement of adjacent elements
+*	End condition : Tentative solution updated N-1 times (N:number of elements)
+*   Choose the first solution : The solution obtained by the greedy method is the first solution
+*/
+
 var size = []int{3,6,5,4,8,5,3,4,3,5,6,4,8,7,11,8,14,6,12,4}
 var price = []int{7,12,9,7,13,8,4,5,3,10,7,5,6,14,5,9,6,12,5,9}
-// 最小・最大判定
+//Minimum and maximum judgment
 var min_first_p int = 1000 
 var max_first_p int = 0
 var min_first_s int = 0 
 var max_first_s int = 0
-var memory_min_first = make([]int, len(size)) //初期解の中の最良解
-var memory_max_first = make([]int, len(size)) //初期解の中の最悪解
+var memory_min_first = make([]int, len(size)) //The best of the first solution
+var memory_max_first = make([]int, len(size)) //The worst of the first solution
 var first_flag bool = true
 var g_max_size int = 0
 var g_max_price int = 0
 var limit int =  55
 
+//sort function
 func sort(s []int, p []int)([]int, []int){
 	for i := 0; i < len(s) - 1; i++ {
 		for j := 0; j < len(s) - i - 1; j++ {
@@ -32,6 +39,7 @@ func sort(s []int, p []int)([]int, []int){
 	return s, p
 }
 
+//shuffle function
 func shuffle(data []int) []int{
 	rand.Seed(time.Now().Unix())
     n := len(data)
@@ -42,6 +50,7 @@ func shuffle(data []int) []int{
 	return data
 }
 
+//greedy function
 func greedy(s []int, p []int)[]int{
 	g_comb := []int{}
 	for n := 0; n < len(s) - 1; n++{
@@ -59,14 +68,14 @@ func greedy(s []int, p []int)[]int{
 }
 
 
-//扇動関数
+//perturbation function
 func swap(c []int, i int) []int{
 	swap_c := c
 	swap_c[i], swap_c[i+1] =  swap_c[i+1], swap_c[i]
 	return swap_c
 }
 
-//初期解の中の最良と最悪の解を判定する解
+//judge the best and worst of the first solutions
 func memory_slice(f_p int, f_s int,c []int){ 
 	if first_flag {
 		min_first_p, max_first_p = f_p, f_p
@@ -87,6 +96,7 @@ func memory_slice(f_p int, f_s int,c []int){
 	}
 }
 
+//Multi Start local search
 func mslsearch(c []int, limit int) (int, int, []int){
 	max_size := 0
 	max_price := 0 
@@ -127,7 +137,7 @@ func mslsearch(c []int, limit int) (int, int, []int){
 }
 
 func main(){
-	p := 5 //初期解を生成する数
+	p := 5 //create first solutions
 	result_maxsize := 0
 	result_maxprice := 0
 	result_minprice := 100

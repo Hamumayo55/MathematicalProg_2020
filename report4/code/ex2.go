@@ -6,22 +6,22 @@ import (
 )
 
 /*
-*	扇動の定義：隣り合う要素の入れ替え
-*	終了条件：暫定解の更新回数はN-1回(N:要素数)とする
+*	Definition of perturbation : replacement of adjacent elements
+*	End condition : Tentative solution updated N-1 times (N:number of elements)
 */
 
 var job_time = [4][4]int{{6, 1, 9, 3}, {2, 5, 7, 8}, {6, 3, 5, 4}, {3, 5, 2, 1}} 
-var first_comb = []int{} //初期解の目的関数値
-var optimal_comb = []int{} //最終解の目的関数値
-var p int = 5 //初期解を生成する数
-var memory_min_first = make([]int, len(job_time[0])) //初期解の中の最良解
-var memory_max_first = make([]int, len(job_time[0])) //初期解の中の最悪解
-// 最小・最大判定
+var first_comb = []int{} //Objective function value of the first solution
+var optimal_comb = []int{} //Objective function value of the end solution
+var p int = 5 //The number of first solutions to be generated
+var memory_min_first = make([]int, len(job_time[0])) //The best of the first solution
+var memory_max_first = make([]int, len(job_time[0])) //The worst of the first solution
+//Minimum and maximum judgment
 var min_first int = 1000 
 var max_first int = 0
 var first_flag bool = true
 
-//ソートする関数
+//sort function
 func sort(s []int) []int {
 	for i := 0; i < len(s) - 1; i++ {
 		for j := 0; j < len(s) - i - 1; j++ {
@@ -33,7 +33,7 @@ func sort(s []int) []int {
 	return s
 }
 
-//解をシャッフル関数
+//shuffle function
 func shuffle(data []int) []int{
     for l := len(data) - 1; l >= 0; l-- {
         j := rand.Intn(l + 1)
@@ -42,14 +42,14 @@ func shuffle(data []int) []int{
 	return data
 }
 
-//扇動関数
+//perturbation function
 func swap(c []int, i int) []int{
 	swap_c := c
 	swap_c[i], swap_c[i+1] =  swap_c[i+1], swap_c[i]
 	return swap_c
 }
 
-//初期解の中の最良と最悪の解を判定する解
+//judge the best and worst of the first solutions
 func memory_slice(f int, c []int){
 	if first_flag {
 		min_first, max_first = f, f
@@ -65,7 +65,7 @@ func memory_slice(f int, c []int){
 	}
 }
 
-//多スタート局所探索法の関数
+//Multi Start local search
 func mslsearch(comb []int) (int, []int){
 	first_value := job_time[0][comb[0]-1] + job_time[1][comb[1]-1] + job_time[2][comb[2]-1] + job_time[3][comb[3]-1]
 
@@ -89,9 +89,9 @@ func mslsearch(comb []int) (int, []int){
 }
 
 func main(){
-	comb := []int{3, 4, 1, 2} //最初の組み合わせ
-	shuffle_comb := []int{} //シャッフルする解
-	best_comb := make([]int, len(job_time[0])) //準暫定解
+	comb := []int{3, 4, 1, 2} //first comb
+	shuffle_comb := []int{} //shuffle
+	best_comb := make([]int, len(job_time[0]))
 	bad_comb := make([]int, len(job_time[0]))
 
 	for k := 0; k < p; k++{

@@ -6,13 +6,14 @@ import (
 )
 
 /*
-*	扇動の定義：隣り合う要素の入れ替え
-*	終了条件：暫定解の更新回数はN-1回(N:要素数)とする
+*	Definition of perturbation : replacement of adjacent elements
+*	End condition : Tentative solution updated N-1 times (N:number of elements)
 */
 
 var job_time = [4][4]int{{6, 1, 9, 3}, {2, 5, 7, 8}, {6, 3, 5, 4}, {3, 5, 2, 1}}
 var p int = 5
 
+//shuffle function
 func shuffle(data []int) []int{
     for l := len(data) - 1; l >= 0; l-- {
         j := rand.Intn(l + 1)
@@ -21,12 +22,14 @@ func shuffle(data []int) []int{
 	return data
 }
 
+//perturbation function
 func swap(c []int, i int) []int{
 	swap_c := c
 	swap_c[i], swap_c[i+1] =  swap_c[i+1], swap_c[i]
 	return swap_c
 }
 
+//Multi Start local search
 func mslsearch(comb []int) (int, []int){
 	first_value := job_time[0][comb[0]-1] + job_time[1][comb[1]-1] + job_time[2][comb[2]-1] + job_time[3][comb[3]-1]
 	best_c := make([]int, len(comb))
