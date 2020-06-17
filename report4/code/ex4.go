@@ -9,7 +9,7 @@ import (
 /*
 *	Definition of perturbation : replacement of adjacent elements
 *	End condition : Tentative solution updated N-1 times (N:number of elements)
-*   Choose the first solution : The solution obtained by the greedy method is the first solution
+*	Choose the first solution : The solution obtained by the greedy method is the first solution
 */
 
 var size = []int{3,6,5,4,8,5,3,4,3,5,6,4,8,7,11,8,14,6,12,4}
@@ -42,7 +42,7 @@ func sort(s []int, p []int)([]int, []int){
 //shuffle function
 func shuffle(data []int) []int{
 	rand.Seed(time.Now().Unix())
-    n := len(data)
+	n := len(data)
     for i := n-1; i >= 0; i-- {
         j := rand.Intn(i+1)
         data[i], data[j] = data[j], data[i]
