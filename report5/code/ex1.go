@@ -3,5 +3,6 @@ package main
 import "fmt"
 
 func main(){
-	fmt.Println("Hello World")
+	matrix := [][]float64{{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}}
+	fmt.Println(matrix)
 }

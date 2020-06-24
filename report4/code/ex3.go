@@ -11,6 +11,9 @@ import (
 *	End condition : Tentative solution updated N-1 times (N:number of elements)
 */
 
+//var size = []int{3,6,5,4,8,5,3,4}
+//var price = []int{7,12,9,7,13,8,4,5}
+
 var size = []int{3,6,5,4,8,5,3,4,3,5,6,4,8,7,11,8,14,6,12,4}
 var price = []int{7,12,9,7,13,8,4,5,3,10,7,5,6,14,5,9,6,12,5,9}
 //Minimum and maximum judgment
@@ -107,7 +110,7 @@ func mslsearch(c []int, limit int) (int, int, []int){
 
 func main(){
 	limit := 55
-	p := 5 //create first solutions
+	p := 20 //create first solutions
 	result_maxsize := 0
 	result_maxprice := 0
 	result_minprice := 100
