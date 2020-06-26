@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"math"
 )
-var num_row int = 4 //列
-var num_line int = 3 //行
+var num_row int = 3 //列
+var num_line int = 4 //行
 var max_z float64 = 0
 var pe_div float64 = 0
 var pe float64 = 0
-var matrix = [][]float64{{8,1,-1,2},{1,2,-3,-1},{0,-1,-1,-1}}
+var matrix = [][]float64{{14,1,2},{8,1,1},{18,3,1},{0,-2,-1}}
 
 func simplex(row int, line int) [][]float64{
 	for i := 0; i < num_row; i++{
@@ -65,6 +65,7 @@ func main(){
 	fmt.Println(matrix[0])
 	fmt.Println(matrix[1])
 	fmt.Println(matrix[2])
+	fmt.Println(matrix[3])
 	fmt.Println("---------------------------------------------------")
 
 	flag := false
@@ -77,6 +78,7 @@ func main(){
 		fmt.Println(matrix[0])
 		fmt.Println(matrix[1])
 		fmt.Println(matrix[2])
+		fmt.Println(matrix[3])
 		fmt.Println("---------------------------------------------------")
 	
 		for i := 0; i < num_row; i++{
@@ -99,18 +101,23 @@ func main(){
 				break
 			}
 		}
+		if flag {
+			break
+		}
 	}
 	if isoptimal{
 		fmt.Println("最終シンプレックスタブロー")
 		fmt.Println(matrix[0])
 		fmt.Println(matrix[1])
 		fmt.Println(matrix[2])
+		fmt.Println(matrix[3])
 		fmt.Println("---------------------------------------------------")
 	}else{
 		fmt.Println("最終シンプレックスタブロー")
 		fmt.Println(matrix[0])
 		fmt.Println(matrix[1])
 		fmt.Println(matrix[2])
+		fmt.Println(matrix[3])
 		fmt.Println("---------------------------------------------------")
 		fmt.Println("最適化なし")
 	}
