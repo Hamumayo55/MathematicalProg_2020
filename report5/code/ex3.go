@@ -26,9 +26,10 @@ func simplex(row int, line int) [][]float64{
 	return matrix
 }
 
-func peselect(m [][]float64)(int, int){
+func peselect(m [][]float64)(int, int, bool){
 	row := 0
 	line := 0
+	flag := false
 
 	// 列の選択
 	for i := 1; i < num_row; i++{
@@ -43,21 +44,31 @@ func peselect(m [][]float64)(int, int){
 			max_z = math.Abs(m[num_line-1][i])
 		}
 	}
+	for n := 0; n < num_line; n++{
+		if matrix[n][row] == 0 || matrix[n][row] < 0{
+			flag = true
+		}else{
+			flag = false
+			break
+		}
+	}
 	// ピボットエレメントの選択
-	for n := 0; n < num_line-1; n++{
-		if n != 0 && m[n][0]/m[n][row] > 0{
-			if pe_div > (m[n][0]/m[n][row]){
+	if !flag{
+		for n := 0; n < num_line-1; n++{
+			if n != 0 && m[n][0]/m[n][row] > 0{
+				if pe_div > (m[n][0]/m[n][row]){
+					pe_div = m[n][0]/m[n][row]
+					line = n
+					pe = m[n][row]
+				}
+			}else if m[n][0]/m[n][row] > 0 {
 				pe_div = m[n][0]/m[n][row]
 				line = n
 				pe = m[n][row]
 			}
-		}else if m[n][0]/m[n][row] > 0 {
-			pe_div = m[n][0]/m[n][row]
-			line = n
-			pe = m[n][row]
 		}
 	}
-	return row, line
+	return row, line, flag
 }
 
 func main(){
@@ -68,11 +79,15 @@ func main(){
 	fmt.Println(matrix[3])
 	fmt.Println("---------------------------------------------------")
 
-	flag := false
-	isoptimal := false
+	z_flag := false
+	isoptimal := true
 
 	for{
-		row, line := peselect(matrix)
+		row, line, flag := peselect(matrix)
+		if flag {
+			isoptimal = false
+			break
+		}
 		matrix = simplex(row, line)
 		fmt.Println("シンプレックスタブロー")
 		fmt.Println(matrix[0])
@@ -81,28 +96,15 @@ func main(){
 		fmt.Println(matrix[3])
 		fmt.Println("---------------------------------------------------")
 
-		for n := 0; n < num_line; n++{
-			fmt.Println(matrix[n][row])
-			if matrix[n][row] == 0 || matrix[n][row] < 0{
-				flag = true
-			}else{
-				flag = false
-				break
-			}
-		}
-		if flag {
-			break
-		}
 		for i := 0; i < num_row; i++{
 			if matrix[num_line-1][i] == 0 || matrix[num_line-1][i] > 0{
-				flag = true
+				z_flag = true
 			}else{
-				flag = false
-				isoptimal = true
+				z_flag = false
 				break
 			}
 		}
-		if flag {
+		if z_flag {
 			break
 		}
 	}
